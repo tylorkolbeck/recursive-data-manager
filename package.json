@@ -1,0 +1,14 @@
+{
+  "name": "data-store-module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "tsc",
+    "watch": "tsc --watch",
+    "start": "tsc && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

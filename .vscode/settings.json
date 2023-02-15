@@ -1,0 +1,7 @@
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/*.js": { "when": "$(basename).ts" },
+    "**/**.js": { "when": "$(basename).tsx" }
+  }
+}
