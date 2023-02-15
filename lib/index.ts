@@ -1,11 +1,5 @@
 import DataStore from "./DataStore";
-import {
-  Command,
-  CommandOperation,
-  DataStoreData,
-  InsertCommand,
-  StoreCommand,
-} from "./DataStoreBase";
+import { Command, CommandOperation, DataStoreData } from "./types";
 
 const testData: DataStoreData = {
   id: "stage_1",

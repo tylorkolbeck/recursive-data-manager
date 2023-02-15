@@ -1,9 +1,5 @@
-import DataStoreBase, {
-  Command,
-  DeleteCommand,
-  InsertCommand,
-  SubscribeCallback,
-} from "./DataStoreBase";
+import DataStoreBase from "./DataStoreBase";
+import { Command, DataStoreData, DeleteCommand, InsertCommand, SubscribeCallback } from "./types";
 
 class DataStore extends DataStoreBase {
   constructor() {
@@ -15,7 +11,6 @@ class DataStore extends DataStoreBase {
   }
 
   execute(command: Command): void {
-    // this.checkCommandData()
     switch (command.operation) {
       case "insert":
         this.insert(command as InsertCommand);
@@ -30,7 +25,9 @@ class DataStore extends DataStoreBase {
 
   }
 
-  get(): any {}
+  get(): DataStoreData {
+    return this._get();
+  }
 }
 
 export default DataStore;

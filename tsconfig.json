@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "./lib",
     "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
@@ -8,7 +9,8 @@
   },
   "exclude": [
     "node_modules",
-    "**/.*/"
+    "**/.*/",
+    "spec"
   ],
-  "include": ["lib/**/*"]
+  "include": ["lib/**/*", "spec"]
 }
