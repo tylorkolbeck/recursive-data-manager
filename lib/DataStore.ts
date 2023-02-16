@@ -6,11 +6,15 @@ class DataStore extends DataStoreBase {
     super();
   }
 
-  subscribe(subscribeCallback: SubscribeCallback): void {
-    this.subscribeCallback = subscribeCallback;
+  public dataChanged(subscribeCallback: SubscribeCallback): void {
+    this.dataChangedCallback = subscribeCallback;
   }
 
-  execute(command: Command): void {
+  public itemChanged(subscribeCallback: SubscribeCallback): void {
+    this.itemChangedCallback = subscribeCallback;
+  }
+
+  public execute(command: Command): void {
     switch (command.operation) {
       case "insert":
         this.insert(command as InsertCommand);
@@ -22,10 +26,9 @@ class DataStore extends DataStoreBase {
     }
 
     this.history.push(command);
-
   }
 
-  get(): DataStoreData {
+  public get(): DataStoreData {
     return this._get();
   }
 }

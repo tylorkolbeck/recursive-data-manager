@@ -50,8 +50,8 @@ const commands: Command[] = [
 // };
 
 const dataStore = new DataStore();
-dataStore.subscribe((data: DataStoreData) => {
-  console.log("** DATA *** \n", data);
+dataStore.dataChanged((data: DataStoreData) => {
+  console.log("*** DATA *** \n", data);
 });
 
 dataStore.execute(commands[0]);

@@ -1,5 +1,6 @@
 import RecursiveUtil from "../lib/RecursiveUtil";
 import {
+  insertIntoNestedChildWithMultipleValuesInArrayData,
   insertIntoNestedChildWithoutPositionData,
   insertIntoNestedChildWithPositionData,
   insertIntoTopLevelWithoutPositionData,
@@ -56,6 +57,22 @@ describe("Static Recursive Utility Class", () => {
   test("insert into nested child with position passed", () => {
     const { initial, target, value, returnResult, position } = structuredClone(
       insertIntoNestedChildWithPositionData
+    );
+
+    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+      initial,
+      target,
+      value,
+      position
+    );
+
+    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(itemUpdated).toEqual(returnResult.itemUpdated);
+  });
+
+  test("insert into nested child with multiple values in value array", () => {
+    const { initial, target, value, returnResult, position } = structuredClone(
+      insertIntoNestedChildWithMultipleValuesInArrayData
     );
 
     const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(

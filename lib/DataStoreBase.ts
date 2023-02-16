@@ -4,6 +4,7 @@ import {
   DataStoreData,
   DeleteCommand,
   InsertCommand,
+  RecursiveOperationReturnData,
   StoreCommand,
   SubscribeCallback,
 } from "./types";
@@ -11,12 +12,12 @@ import {
 class DataStoreBase {
   public history: History<StoreCommand> = new History();
   private _data: DataStoreData | null = null;
-  protected subscribeCallback: SubscribeCallback | null = null;
+  protected dataChangedCallback: SubscribeCallback | null = null;
+  protected itemChangedCallback: SubscribeCallback | null = null;
 
-  protected set(value: DataStoreData) {
-    this._data = structuredClone(value);
-
-    if (this.subscribeCallback !== null) this.subscribeCallback(this._get());
+  protected set(value: RecursiveOperationReturnData) {
+    this._data = structuredClone(value.mutatedItem);
+    if (this.dataChangedCallback !== null) this.dataChangedCallback(this._get());
   }
 
   protected _get(): DataStoreData {
@@ -26,7 +27,7 @@ class DataStoreBase {
   protected insert(command: InsertCommand): void {
     if (command.target === null) {
       if (!Array.isArray(command.value)) {
-        this.set(command.value); 
+        this.set({mutatedItem: command.value, itemUpdated: null}); 
         return
       }
       else {
@@ -36,12 +37,14 @@ class DataStoreBase {
       }
     }
 
-    RecursiveUtil.RecursiveInsertAtIndex(
+    const afterInsertValue = RecursiveUtil.RecursiveInsertAtIndex(
       this._get(),
       command.target,
       this.putInArray(command.value),
       command.position
     );
+
+    this.set(afterInsertValue);
   }
 
   protected delete(command: DeleteCommand): void {

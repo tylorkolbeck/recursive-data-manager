@@ -26,3 +26,8 @@ export interface DeleteCommand extends StoreCommand {
 }
 
 export type Command = DeleteCommand | InsertCommand;
+
+export interface RecursiveOperationReturnData {
+  mutatedItem: DataStoreData | null; // The original passed in item that will be mutated from the recusive operation
+  itemUpdated: DataStoreData | null; // The item that was changed after the insert operation
+}

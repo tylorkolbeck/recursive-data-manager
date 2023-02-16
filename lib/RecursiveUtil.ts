@@ -1,44 +1,42 @@
-import { DataStoreData } from "./types";
-
-export interface RecursiveInsertAtIndexReturnType {
-  mutatedItem: DataStoreData | null; // The original passed in item that will be mutated from the recusive operation
-  itemUpdated: DataStoreData | null; // The item that was changed after the insert operation
-}
+import { DataStoreData, RecursiveOperationReturnData } from "./types";
 
 class RecursiveUtil {
   static RecursiveInsertAtIndex(
     item: DataStoreData,
     target: DataStoreData,
     value: DataStoreData[],
-    arrayPosition?: number
-  ): RecursiveInsertAtIndexReturnType {
+    arrayPosition: number = -1
+  ): RecursiveOperationReturnData {
+    let accumulator: RecursiveOperationReturnData = {
+      mutatedItem: item,
+      itemUpdated: null,
+    };
 
-    let itemUpdated;
+    const insertOperation = (item: DataStoreData) => {
+      if (arrayPosition === -1) item.children.push(...value);
+      else item.children.splice(arrayPosition, 0, ...value);
+    };
 
-    loop(item);
-    
-    function loop(parent: DataStoreData): DataStoreData {
-      if (parent.id === target.id) {
-        if (arrayPosition === undefined || arrayPosition === -1)
-          parent.children.push(...value);
-        else
-          parent.children.splice(
-            arrayPosition,
-            0,
-            ...value
-          );
-          itemUpdated = parent;
-      } else if (parent.children.length > 0) {
-        for (let i = 0; i < parent.children.length; i++) {
-          loop(parent.children[i]);
-        }
-      } else {
-        return null;
-      }
-    }
+    RecursiveUtil.loop(item, target, insertOperation, accumulator);
+
+    return accumulator;
+  }
 
 
-    return { mutatedItem: item, itemUpdated };
+  protected static loop(
+    parent: DataStoreData,
+    target: DataStoreData,
+    operation: (item: DataStoreData) => void,
+    accumulator: RecursiveOperationReturnData
+  ): DataStoreData {
+    if (parent.id === target.id) {
+      operation(parent);
+      accumulator.itemUpdated = parent;
+    } else if (parent.children.length > 0)
+      parent.children.forEach((child) =>
+        RecursiveUtil.loop(child, target, operation, accumulator)
+      );
+    else return null;
   }
 }
 

@@ -324,3 +324,94 @@ export const insertIntoNestedChildWithPositionData: any = {
 
   position: 0,
 };
+
+export const insertIntoNestedChildWithMultipleValuesInArrayData: any = {
+  initial: {
+    id: "1",
+    children: [
+      {
+        id: "2",
+        children: [],
+      },
+      {
+        id: "3",
+        children: [
+          {
+            id: "4",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+
+  target: {
+    id: "3",
+    children: [
+      {
+        id: "4",
+        children: [],
+      },
+    ],
+  },
+
+  value: [
+    {
+      id: "5",
+      children: [],
+    },
+    {
+      id: "6",
+      children: [],
+    },
+  ],
+
+  returnResult: {
+    mutatedItem: {
+      id: "1",
+      children: [
+        {
+          id: "2",
+          children: [],
+        },
+        {
+          id: "3",
+          children: [
+            {
+              id: "5",
+              children: [],
+            },
+            {
+              id: "6",
+              children: [],
+            },
+            {
+              id: "4",
+              children: [],
+            },
+          ],
+        },
+      ],
+    },
+
+    itemUpdated: {
+      id: "3",
+      children: [
+        {
+          id: "5",
+          children: [],
+        },
+        {
+          id: "6",
+          children: [],
+        },
+        {
+          id: "4",
+          children: [],
+        },
+      ],
+    },
+  },
+
+  position: 0,
+};

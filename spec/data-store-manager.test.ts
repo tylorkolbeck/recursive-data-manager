@@ -6,7 +6,7 @@ import { initalData } from "./test-data";
 describe("Data Store Manager - initial setup", () => {
   let dataStore: DataStore;
 
-  beforeAll(() => {
+  beforeEach(() => {
     dataStore = new DataStore();
   });
 
@@ -18,7 +18,7 @@ describe("Data Store Manager - initial setup", () => {
       value: initalData,
     };
 
-    dataStore.subscribe((data: DataStoreData) => {
+    dataStore.dataChanged((data: DataStoreData) => {
       expect(data).toEqual(initalData);
     });
 
@@ -63,11 +63,27 @@ describe("Data Store Manager - initial setup", () => {
   })
 
   test("History to not contain a command from an unkown operation", () => {
-    expect(false).toBe(true);
+    const dummyCommand = 'some-operation-that-does-not-exist' as CommandOperation.insert;
+    const command: Command = {
+      operation: dummyCommand,
+      target: null,
+      value: initalData,
+    }
+
+    expect(() => dataStore.execute(command)).toThrow(`Command not found: ${dummyCommand}`)
+    expect(dataStore.history.get()).toEqual([]);
   })
 
   test("History contains last insert command", () => {
-    expect(false).toBe(true);
+    const insertCommand: InsertCommand = {
+      operation: CommandOperation.insert,
+      target: null,
+      value: initalData,
+    };
+
+    dataStore.execute(insertCommand);
+
+    expect(dataStore.history.get()[0]).toEqual(insertCommand);
   })
 
   test("History contains last delete command", () => {
