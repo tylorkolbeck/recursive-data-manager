@@ -1,4 +1,5 @@
 import History from "./history/History";
+import RecursiveUtil from "./RecursiveUtil";
 import {
   DataStoreData,
   DeleteCommand,
@@ -23,11 +24,23 @@ class DataStoreBase {
   }
 
   protected insert(command: InsertCommand): void {
-    if (command.target === null) this.set(command.value);
+    if (command.target === null) {
+      if (!Array.isArray(command.value)) {
+        this.set(command.value); 
+        return
+      }
+      else {
+        throw new Error(
+          "When inserting new data which is indicated by a target of 'null' the value cannot be an array"
+        );
+      }
+    }
 
-    DataStoreBase.RecursiveInsertAtIndex(
+    RecursiveUtil.RecursiveInsertAtIndex(
       this._get(),
-      command
+      command.target,
+      this.putInArray(command.value),
+      command.position
     );
   }
 
@@ -35,11 +48,8 @@ class DataStoreBase {
     throw new Error("Delete not implemented");
   }
 
-  private static RecursiveInsertAtIndex(
-    parent: DataStoreData,
-    command: InsertCommand
-  ): DataStoreData {
-    console.log("RECURSIVE INSERT NOT IMPLEMENTED");
+  private putInArray(value: DataStoreData | DataStoreData[]): DataStoreData[] {
+    return Array.isArray(value) ? value : [value];
   }
 }
 

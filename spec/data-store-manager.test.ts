@@ -16,7 +16,6 @@ describe("Data Store Manager - initial setup", () => {
       operation: CommandOperation.insert,
       target: null,
       value: initalData,
-      position: null,
     };
 
     dataStore.subscribe((data: DataStoreData) => {
@@ -32,7 +31,6 @@ describe("Data Store Manager - initial setup", () => {
       operation: CommandOperation.insert,
       target: null,
       value: initalData,
-      position: null,
     };
 
     dataStore.execute(insertCommand);
@@ -46,7 +44,6 @@ describe("Data Store Manager - initial setup", () => {
       operation: CommandOperation.insert,
       target: null,
       value: initalData,
-      position: null,
     };
 
     dataStore.execute(insertCommand);
@@ -60,7 +57,6 @@ describe("Data Store Manager - initial setup", () => {
       operation: dummyCommand,
       target: null,
       value: initalData,
-      position: null
     }
 
     expect(() => dataStore.execute(command)).toThrow(`Command not found: ${dummyCommand}`)

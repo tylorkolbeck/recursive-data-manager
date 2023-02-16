@@ -9,7 +9,6 @@
     "test:watch": "jest --watch --config jest.config.ts",
     "build:dev": "npx webpack --config=webpack.config.js --mode=development",
     "build:watch": "npx webpack --watch --config=webpack.config.js --mode=development"
-
   },
   "jest": {
     "globals": {

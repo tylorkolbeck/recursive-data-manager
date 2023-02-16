@@ -13,11 +13,12 @@ export enum CommandOperation {
 export interface StoreCommand {
   operation: CommandOperation;
   target: DataStoreData | DataStoreData[] | null;
-  value: DataStoreData | DataStoreData | null;
+  value: DataStoreData | DataStoreData[] | null;
 }
 
 export interface InsertCommand extends StoreCommand {
-  position: number | null;
+  target: DataStoreData | null;
+  position?: number;
 }
 
 export interface DeleteCommand extends StoreCommand {
