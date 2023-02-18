@@ -16,7 +16,7 @@ class DataStoreBase {
   protected itemChangedCallback: SubscribeCallback | null = null;
 
   protected set(value: RecursiveOperationReturnData) {
-    this._data = structuredClone(value.mutatedItem);
+    this._data = structuredClone(value.fullData);
     if (this.dataChangedCallback !== null) this.dataChangedCallback(this._get());
   }
 
@@ -27,7 +27,7 @@ class DataStoreBase {
   protected insert(command: InsertCommand): void {
     if (command.target === null) {
       if (!Array.isArray(command.value)) {
-        this.set({mutatedItem: command.value, itemUpdated: null}); 
+        this.set({fullData: command.value, itemUpdated: null}); 
         return
       }
       else {
@@ -37,7 +37,7 @@ class DataStoreBase {
       }
     }
 
-    const afterInsertValue = RecursiveUtil.RecursiveInsertAtIndex(
+    const afterInsertValue = RecursiveUtil.RecursiveInsert(
       this._get(),
       command.target,
       this.putInArray(command.value),
@@ -48,7 +48,10 @@ class DataStoreBase {
   }
 
   protected delete(command: DeleteCommand): void {
-    throw new Error("Delete not implemented");
+    const afterDeleteValue = RecursiveUtil.RecursiveDelete(
+      this._get(),
+      command.target,
+    )
   }
 
   private putInArray(value: DataStoreData | DataStoreData[]): DataStoreData[] {

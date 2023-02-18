@@ -13,13 +13,13 @@ describe("Static Recursive Utility Class", () => {
       insertIntoTopLevelWithoutPositionData
     );
 
-    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
       initial,
       target,
       value,
       position
     );
-    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(fullData).toEqual(returnResult.fullData);
     expect(itemUpdated).toEqual(returnResult.itemUpdated);
   });
 
@@ -28,13 +28,13 @@ describe("Static Recursive Utility Class", () => {
       insertIntoTopLevelWithPositionData
     );
 
-    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
       initial,
       target,
       value,
       position
     );
-    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(fullData).toEqual(returnResult.fullData);
     expect(itemUpdated).toEqual(returnResult.itemUpdated);
   });
 
@@ -43,14 +43,14 @@ describe("Static Recursive Utility Class", () => {
       insertIntoNestedChildWithoutPositionData
     );
 
-    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
       initial,
       target,
       value,
       position
     );
 
-    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(fullData).toEqual(returnResult.fullData);
     expect(itemUpdated).toEqual(returnResult.itemUpdated);
   });
 
@@ -59,14 +59,14 @@ describe("Static Recursive Utility Class", () => {
       insertIntoNestedChildWithPositionData
     );
 
-    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
       initial,
       target,
       value,
       position
     );
 
-    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(fullData).toEqual(returnResult.fullData);
     expect(itemUpdated).toEqual(returnResult.itemUpdated);
   });
 
@@ -75,14 +75,18 @@ describe("Static Recursive Utility Class", () => {
       insertIntoNestedChildWithMultipleValuesInArrayData
     );
 
-    const { mutatedItem, itemUpdated } = RecursiveUtil.RecursiveInsertAtIndex(
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
       initial,
       target,
       value,
       position
     );
 
-    expect(mutatedItem).toEqual(returnResult.mutatedItem);
+    expect(fullData).toEqual(returnResult.fullData);
     expect(itemUpdated).toEqual(returnResult.itemUpdated);
   });
+
+  test("insert where target cannot be found", () => {
+    expect(true).toBe(false);
+  })
 });

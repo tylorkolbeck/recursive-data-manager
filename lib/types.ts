@@ -22,12 +22,17 @@ export interface InsertCommand extends StoreCommand {
 }
 
 export interface DeleteCommand extends StoreCommand {
-
+  target: DataStoreData;
 }
 
 export type Command = DeleteCommand | InsertCommand;
 
 export interface RecursiveOperationReturnData {
-  mutatedItem: DataStoreData | null; // The original passed in item that will be mutated from the recusive operation
+  fullData: DataStoreData | null; // The original passed in item that will be mutated from the recusive operation
   itemUpdated: DataStoreData | null; // The item that was changed after the insert operation
+}
+
+export interface RecursiveDeleteOperationReturnData extends RecursiveOperationReturnData {
+  position: number;
+  parent: DataStoreData;
 }

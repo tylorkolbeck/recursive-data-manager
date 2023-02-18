@@ -1,5 +1,11 @@
 import DataStore from "./DataStore";
-import { Command, CommandOperation, DataStoreData } from "./types";
+import {
+  Command,
+  CommandOperation,
+  DataStoreData,
+  DeleteCommand,
+  InsertCommand,
+} from "./types";
 
 const testData: DataStoreData = {
   id: "stage_1",
@@ -39,7 +45,14 @@ const commands: Command[] = [
     target: null,
     value: testData,
     position: null,
-  },
+  } as InsertCommand,
+  {
+    operation: CommandOperation.delete,
+    target: {
+      id: "stage_sub_1_1",
+      children: [],
+    },
+  } as DeleteCommand,
 ];
 
 // const initialCommand: InsertCommand = {
@@ -49,10 +62,13 @@ const commands: Command[] = [
 //   position: null,
 // };
 
+const insertCmd = commands[0];
+const deleteCmd = commands[1];
+
 const dataStore = new DataStore();
 dataStore.dataChanged((data: DataStoreData) => {
-  console.log("*** DATA *** \n", data);
+  console.log("*** DATA *** \n", JSON.stringify(data, null, 2));
 });
 
-dataStore.execute(commands[0]);
+dataStore.execute(insertCmd);
 console.log("*** HISTORY *** \n ", dataStore.history.get());

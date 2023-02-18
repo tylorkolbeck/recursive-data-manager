@@ -42,7 +42,7 @@ export const insertIntoTopLevelWithoutPositionData: any = {
     },
   ],
   returnResult: {
-    mutatedItem: {
+    fullData: {
       id: "1",
       children: [
         {
@@ -127,7 +127,7 @@ export const insertIntoTopLevelWithPositionData: any = {
   ],
 
   returnResult: {
-    mutatedItem: {
+    fullData: {
       id: "1",
       children: [
         {
@@ -205,7 +205,7 @@ export const insertIntoNestedChildWithoutPositionData: any = {
   ],
 
   returnResult: {
-    mutatedItem: {
+    fullData: {
       id: "1",
       children: [
         {
@@ -284,7 +284,7 @@ export const insertIntoNestedChildWithPositionData: any = {
   ],
 
   returnResult: {
-    mutatedItem: {
+    fullData: {
       id: "1",
       children: [
         {
@@ -367,7 +367,7 @@ export const insertIntoNestedChildWithMultipleValuesInArrayData: any = {
   ],
 
   returnResult: {
-    mutatedItem: {
+    fullData: {
       id: "1",
       children: [
         {
