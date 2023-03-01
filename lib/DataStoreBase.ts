@@ -52,6 +52,8 @@ class DataStoreBase {
       this._get(),
       command.target,
     )
+    command.position = afterDeleteValue.position;
+    command.parent = afterDeleteValue.itemUpdated
   }
 
   private putInArray(value: DataStoreData | DataStoreData[]): DataStoreData[] {

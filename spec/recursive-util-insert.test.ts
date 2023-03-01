@@ -5,9 +5,9 @@ import {
   insertIntoNestedChildWithPositionData,
   insertIntoTopLevelWithoutPositionData,
   insertIntoTopLevelWithPositionData,
-} from "./recursive-util-test-data";
+} from "./test-data/recursive-util-insert-data";
 
-describe("Static Recursive Utility Class", () => {
+describe("Static Recursive Utility Class - [Insert Operations]", () => {
   test("insert into top level without position", () => {
     const { initial, target, value, returnResult, position } = structuredClone(
       insertIntoTopLevelWithoutPositionData
@@ -87,6 +87,20 @@ describe("Static Recursive Utility Class", () => {
   });
 
   test("insert where target cannot be found", () => {
-    expect(true).toBe(false);
-  })
+    const { initial, target, value, returnResult, position } = structuredClone(
+      insertIntoNestedChildWithMultipleValuesInArrayData
+    );
+
+    target.id = "asdflkj324klj"; // some erroneous id that will not exist
+
+    const { fullData, itemUpdated } = RecursiveUtil.RecursiveInsert(
+      initial,
+      target,
+      value,
+      position
+    );
+
+    expect(itemUpdated).toBe(null);
+  });
 });
+

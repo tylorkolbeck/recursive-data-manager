@@ -23,6 +23,8 @@ export interface InsertCommand extends StoreCommand {
 
 export interface DeleteCommand extends StoreCommand {
   target: DataStoreData;
+  position?: number;
+  parent: DataStoreData | null;
 }
 
 export type Command = DeleteCommand | InsertCommand;
@@ -33,6 +35,6 @@ export interface RecursiveOperationReturnData {
 }
 
 export interface RecursiveDeleteOperationReturnData extends RecursiveOperationReturnData {
-  position: number;
+  position: number | null;
   parent: DataStoreData;
 }

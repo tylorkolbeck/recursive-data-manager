@@ -21,6 +21,7 @@ class DataStore extends DataStoreBase {
         break;
       case "delete":
         this.delete(command as DeleteCommand);
+        break;
       default:
         throw new Error("Command not found: " + command.operation);
     }

@@ -1,4 +1,4 @@
-import { DataStoreData } from "../lib/types";
+import { DataStoreData } from "../../lib/types";
 
 export const initalData: DataStoreData = {
   id: "stage_1",

@@ -1,4 +1,8 @@
-import { DataStoreData, RecursiveDeleteOperationReturnData, RecursiveOperationReturnData } from "./types";
+import {
+  DataStoreData,
+  RecursiveDeleteOperationReturnData,
+  RecursiveOperationReturnData,
+} from "./types";
 
 class RecursiveUtil {
   static RecursiveInsert(
@@ -17,88 +21,78 @@ class RecursiveUtil {
       else item.children.splice(arrayPosition, 0, ...value);
     };
 
-    
-    RecursiveUtil.InsertLoop(originalData, target, insertOperation, accumulator);
+    RecursiveUtil.InsertLoop(
+      originalData,
+      target,
+      insertOperation,
+      accumulator
+    );
 
     return accumulator;
   }
-
 
   static RecursiveDelete(
     originalData: DataStoreData,
-    target: DataStoreData,
+    target: DataStoreData
   ): RecursiveDeleteOperationReturnData {
-
     let accumulator: RecursiveDeleteOperationReturnData = {
-      fullData: originalData,
+      fullData: null,
       itemUpdated: null,
       position: -1,
-      parent: null
     };
 
-    const deleteOperation = (item: DataStoreData) => {
-
-      RecursiveUtil.DeleteLoop(originalData, target, accumulator);
-
-      // if (arrayPosition === -1) item.children.push(...value);
-      // else item.children.splice(arrayPosition, 0, ...value);
-    };
-
-    let lastParent: DataStoreData | null = null;
-    RecursiveUtil.InsertLoop(originalData, target, deleteOperation, accumulator);
-
-    // const deleteOperation = (item: DataStoreData) => {
-    //   if (arrayPosition === -1) item.children.push(...value);
-    //   else item.children.splice(arrayPosition, 0, ...value);
-    // };
+    RecursiveUtil.DeleteLoop(
+      originalData,
+      target,
+      accumulator,
+    );
 
     return accumulator;
-    
   }
 
-  private static DeleteLoop(
+  public static DeleteLoop(
     parent: DataStoreData,
     target: DataStoreData,
-    // operation: (item: DataStoreData) => void,
-    accumulator: RecursiveDeleteOperationReturnData): void {
-      // handle if the top level is the one being deleted
-      if (parent.id === target.id && accumulator.parent === null) {
-        accumulator.position = null;
-        accumulator.parent = null;
-        accumulator.itemUpdated = parent;
-        accumulator.fullData = null;
-        return
-        // this is a delete of everything...
-      } else {
-        accumulator.parent = parent;
-        for (let i = 0; i < parent.children.length; i++) {
-          if (parent.children[i].id === target.id) {
-            accumulator.itemUpdated = parent;
-            accumulator.position = i;
-            parent.children.splice(i, 1);
-          }
-        }
-      }
+    accumulator: RecursiveDeleteOperationReturnData,
+  ): void {
+  if (parent.id === target.id) {
+    // @ts-ignore
+    parent = {id: null};
+    accumulator.fullData = null;
+    return
+  }
+   for (let i = 0; i < parent.children.length; i++) {
+    if (parent.children[i].id === target.id) {
+      accumulator.itemUpdated = parent;
+      accumulator.position = i;
+      parent.children.splice(i, 1);
+      return
 
-     
+    } else if (parent.children[i].children.length > 0) {
+      RecursiveUtil.DeleteLoop(parent.children[i], target, accumulator);
     }
+   }
+  }
 
   private static InsertLoop(
     parent: DataStoreData,
     target: DataStoreData,
     operation: (item: DataStoreData) => void,
-    accumulator: RecursiveOperationReturnData,
+    accumulator: RecursiveOperationReturnData
   ): null {
-
-
     if (parent.id === target.id) {
       operation(parent);
       accumulator.itemUpdated = parent;
-      return
+      return;
     } else if (parent.children.length > 0)
-    for (let i = 0; i < parent.children.length; i++) {
-      RecursiveUtil.InsertLoop(parent.children[i], target, operation, accumulator)
-    }
+      for (let i = 0; i < parent.children.length; i++) {
+        RecursiveUtil.InsertLoop(
+          parent.children[i],
+          target,
+          operation,
+          accumulator
+        );
+      }
     else return null;
   }
 }
